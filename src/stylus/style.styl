@@ -1,0 +1,16 @@
+@import base
+  
+h1:before
+  content: "" + meta.title + " by Stylus"
+  display: block
+  
+  background: color.sub
+  color: color.main
+  font-family: font.mincho
+
+h1:after
+  content: ""
+  display: block
+  background-image: image-url("your-face.png") 
+  width: image-width("your-face.png")
+  height: image-height("your-face.png")
