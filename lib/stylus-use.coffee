@@ -1,5 +1,4 @@
 _ = require "lodash"
-path = require "path"
 stylus = require "stylus"
 fs = require "fs"
 
@@ -31,8 +30,8 @@ class ImageDataManager
     @imageDatas = {}
 
   get: (fileName) ->
-    fileUrl = path.join @urlPrefix, fileName
-    filePath = path.join @pathPrefix, fileName
+    fileUrl = "#{@urlPrefix}/#{fileName}"
+    filePath = "#{@pathPrefix}/#{fileName}"
     return @imageDatas[filePath] if @imageDatas[filePath]?
     @imageDatas[filePath] = new ImageData
       path: filePath
@@ -47,11 +46,11 @@ parse = (obj) ->
     when "object"
       _.mapValues obj, parse
 
-module.exports = (paths, globalParam) -> (styl) ->
+module.exports = ({imageUrlPrefix, imagePathPrefix, globalParam}) -> (styl) ->
   
   imageDataMaanager = new ImageDataManager
-    urlPrefix: path.relative paths.dest.css, paths.dest.img
-    pathPrefix: paths.src.img
+    urlPrefix: imageUrlPrefix
+    pathPrefix: imagePathPrefix
 
   imageUrl = (node) ->
     imageData = imageDataMaanager.get node.val

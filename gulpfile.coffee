@@ -1,40 +1,9 @@
-# PARAMS
-
-ROOT =
-  default:
-    src: "src"
-    debug: "debug"
-    release: "release"
-
-CONNECT_SETTING =
-  root: [__dirname]
-  host: "0.0.0.0"
-  port: 9000
-  livereload: true
-
-PATH =
-  jade: "jade"
-  stylus: "stylus"
-  coffee: "coffee"
-  js: "js"
-  json: "json"
-  img: "img"
-  css: "css"
-  sound: "sound"
-  video: "video"
-  swf: "swf"
-  html: "."
-
-# utils
-path = require "path"
+# modules
 args = (require "yargs").argv
-_ = require "lodash"
 colors = require "colors"
+del = require "del"
 
-# gulp
 gulp = require "gulp"
-
-# gulp modules
 jade = require "gulp-jade"
 stylus = require "gulp-stylus"
 rename = require "gulp-rename"
@@ -44,35 +13,40 @@ connect = require "gulp-connect"
 uglify = require "gulp-uglify"
 sourcemaps = require "gulp-sourcemaps"
 gulpIf = require "gulp-if"
-coffeeify = require "./modules/coffeeify"
+coffeeify = require "./lib/coffeeify"
+guruguru = require "./lib/guruguru"
 
-# other modules for gulp tasks
 nib = require "nib"
 nsg = require "node-sprite-generator"
-stylusUse = require "./modules/stylus-use"
+stylusUse = require "./lib/stylus-use"
 globalParam = require "./global-param"
-suddenDeath = require "./modules/sudden-death"
 
-plumberParam =
-  errorHandler: (err) ->
-    console.log err.message
+isDebug = not args.release?
+isHighSpeedMode = args.hs?
+isNoSpeedMode = args.ns?
+
+src = "src"
+dest = if isDebug then "debug" else "release"
 
 gulp.task "jade", ->
   gulp
-    .src (path.join paths.src.jade, "index.jade"),
-      base: paths.src.jade
-    .pipe plumber plumberParam
+    .src "#{src}/jade/index.jade"
+    .pipe plumber
+      errorHandler: (err) -> console.log err.message
     .pipe jade
       pretty: true
       data: globalParam
-    .pipe gulp.dest paths.dest.html
+    .pipe gulp.dest dest
     .pipe connect.reload()
 
 gulp.task "stylus", ->
   param =
     use: [
       nib()
-      stylusUse paths, globalParam
+      stylusUse
+        imageUrlPrefix: "../img"
+        imagePathPrefix: "#{src}/img"
+        globalParam: globalParam
     ]
     compress: not isDebug
 
@@ -81,141 +55,117 @@ gulp.task "stylus", ->
       inline: isDebug
 
   gulp
-    .src (path.join paths.src.stylus, "style.styl"),
-      base: paths.src.stylus
-    .pipe plumber plumberParam
+    .src "#{src}/stylus/style.styl"
+    .pipe plumber
+      errorHandler: (err) -> console.log err.message
     .pipe stylus param
-    .pipe gulp.dest paths.dest.css
+    .pipe gulp.dest "#{dest}/css"
     .pipe connect.reload()
 
 gulp.task "coffeeify", ->
   param =
-    extensions: [".coffee"]
-    debug: isDebug
 
   gulp
-    .src (path.join paths.src.coffee, "app.coffee"),
-      base: paths.src.coffee
-    .pipe plumber plumberParam
+    .src "#{src}/coffee/app.coffee"
     .pipe gulpIf isDebug, sourcemaps.init()
-    .pipe coffeeify param
+    .pipe coffeeify
+      extensions: [".coffee"]
+      debug: isDebug
     .pipe gulpIf !isDebug, uglify
       preserveComments: "all"
     .pipe gulpIf isDebug, sourcemaps.write()
     .pipe sourcemaps.write()
     .pipe rename
       extname: ".js"
-    .pipe gulp.dest paths.dest.js
+    .pipe gulp.dest "#{dest}/js"
     .pipe connect.reload()
   
 gulp.task "test", ->
   gulp
-    .src path.join paths.dest.html, "*.test.html"
+    .src "#{dest}/*.test.html"
     .pipe mocha()
 
 gulp.task "copy-img", ->
   gulp
-    .src (
-      _.map ["**/*.png", "**/*.jpg", "**/*.jpeg", "**/*.gif"], (x) ->
-        path.join paths.src.img, x
-    ),
-      base: paths.src.img
-    .pipe gulp.dest paths.dest.img
+    .src [
+      "#{src}/img/**/*.png"
+      "#{src}/img/**/*.jpg"
+      "#{src}/img/**/*.gif"
+    ],
+      base: "#{src}/img"
+    .pipe gulp.dest "#{dest}/img"
     .pipe connect.reload()
 
 gulp.task "copy-js", ->
   gulp
-    .src (path.join paths.src.js, "**/*.js"),
-      base: paths.src.js
-    .pipe gulp.dest paths.dest.js
+    .src "#{src}/js/**/*.js",
+      base: "#{src}/js"
+    .pipe gulp.dest "#{dest}/js"
     .pipe connect.reload()
 
 gulp.task "copy-swf", ->
   gulp
-    .src (path.join paths.src.swf, "**/*.swf"),
-      base: paths.src.swf
-    .pipe gulp.dest paths.dest.swf
+    .src "#{src}/swf/**/*.swf",
+      base: "#{src}/swf"
+    .pipe gulp.dest "#{dest}/swf"
     .pipe connect.reload()
-
 
 gulp.task "copy-json", ->
   gulp
-    .src (path.join paths.src.json, "**/*.json"),
-      base: paths.src.json
-    .pipe gulp.dest paths.dest.json
+    .src "#{src}/json/**/*.json",
+      base: "#{src}/json"
+    .pipe gulp.dest "#{dest}/json"
     .pipe connect.reload()
 
 gulp.task "copy-sound", ->
   gulp
-    .src (
-      _.map ["**/*.mp3", "**/*.wav", "**/*.org"], (x) ->
-        path.join paths.src.sound, x
-    ),
-      base: paths.src.sound
-    .pipe gulp.dest paths.dest.sound
+    .src [
+      "#{src}/sound/**/*.mp3"
+      "#{src}/sound/**/*.ogg"
+    ],
+      base: "#{src}/sound"
+    .pipe gulp.dest "#{dest}/sound"
     .pipe connect.reload()
 
 gulp.task "copy-video", ->
   gulp
-    .src (_.map ["**/*.mp4"], (x) -> path.join paths.src.video, x),
-      base: paths.src.video
-    .pipe gulp.dest paths.dest.video
+    .src "#{src}/video/**/*.mp4",
+      base: "#{src}/video"
+    .pipe gulp.dest "#{dest}/video"
+    .pipe connect.reload()
 
 gulp.task "sprite", ->
   dirname = args.dir
   return if not dirname?
   nsg
-    src: [path.join paths.src.img, dirname, "*.png"]
-    spritePath: path.join paths.src.img, dirname + ".png"
-    stylesheetPath: path.join paths.src.stylus, "sprite", dirname + ".styl"
+    src: ["#{src}/img/#{dirname}/*.png"]
+    spritePath: "#{src}/img/#{dirname}.png"
+    stylesheetPath: "#{src}/stylus/sprite/#{dirname}.styl"
     stylesheetOptions:
       prefix: dirname + "-"
-      spritePath: path.join "../img", dirname + ".png"
+      spritePath: "../img/#{dirname}.png"
 
 gulp.task "connect", ->
-  param = _.clone CONNECT_SETTING
-  connect.server param
+  connect.server
+    root: [__dirname]
+    host: "0.0.0.0"
+    port: 9000
+    livereload: true
 
 gulp.task "guruguru", ->
-  return if isNoSpeedMode
-
-  lastTask = ""
-  taskStarted = false
-  times = 0
-
-  gulp.on "task_start", (e) ->
-    taskStarted = true
-    stdout = process.stdout
-    stdout.cursorTo 0, 0
-    lines = process.stdout.getWindowSize()[1]
-    for i in [0...lines]
-      console.log "\n"
-    stdout.cursorTo 0, 6
-
-  gulp.on "task_stop", (e) ->
-    lastTask = e.task
-    times++
-    taskStarted = false
-  
-  steps = 6
-  duration = if isHighSpeedMode then 400 else 1800
-  interval = duration / steps | 0
-
-  setInterval =>
-    return if taskStarted
-    t = Date.now() / duration % 1
-    t = 1 - t if times % 2 is 0
-    process.stdout.cursorTo 0, 0
-    suddenDeath lastTask, t
-  , interval
+  guruguru gulp, isHighSpeedMode if not isNoSpeedMode
 
 gulp.task "watch", ["connect", "guruguru"], ->
-  gulp.watch (path.join paths.src.jade, "**/*.jade"), ["jade"]
-  gulp.watch (path.join paths.src.stylus, "**/*.styl"), ["stylus"]
-  gulp.watch (path.join paths.src.coffee, "**/*.coffee"), ["coffeeify"]
-  gulp.watch (path.join paths.src.json, "**/*.json"), ["copy-json"]
+  gulp.watch "src/jade/**/*.jade", ["jade"]
+  gulp.watch "src/stylus/**/*.styl", ["stylus"]
+  gulp.watch "src/coffee/**/*.coffee", ["coffeeify"]
+  gulp.watch "src/json/**/*.json", ["copy-json"]
+  gulp.watch "global-param.json", ["jade", "stylus", "coffeeify"]
+
+gulp.task "clean", (done) -> del dest, done
 
 gulp.task "default", [
+  "clean",
   "jade",
   "stylus",
   "coffeeify",
@@ -226,26 +176,3 @@ gulp.task "default", [
   "copy-swf",
   "copy-video",
 ]
-
-getPaths = (src_root, dest_root) ->
-  src: _.mapValues PATH, (val) ->
-    path.join src_root, val
-  dest: _.mapValues PATH, (val) ->
-    path.join dest_root, val
-
-# MAIN #
-isDebug = not args.release?
-isHighSpeedMode = args.hs?
-isNoSpeedMode = args.ns?
-
-root = ROOT.default
-
-src = root.src
-
-if isDebug
-  dest = root.debug
-else
-  dest = root.release
-
-paths = getPaths src, dest
-

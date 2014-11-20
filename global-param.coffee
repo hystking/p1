@@ -10,6 +10,10 @@ module.exports =
     description: "ディスクリプション"
     url: "http://example.org/"
 
+  a:
+    b:
+      c: "d"
+
   layout:
     width: "900px"
 
