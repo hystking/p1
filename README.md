@@ -31,3 +31,8 @@ release フォルダにビルド
 
 src/stylus/sprite/directory_name.styl  
 にスプライト用の mixin が記述された stylus 用のファイルが書き出される  
+
+### npm test
+
+test/ 以下のテストを走らせる。  
+phantom とかは入れてないので、ユニットテストだけ
