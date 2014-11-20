@@ -2,6 +2,7 @@
 args = (require "yargs").argv
 colors = require "colors"
 del = require "del"
+runSequence = require "run-sequence"
 
 gulp = require "gulp"
 jade = require "gulp-jade"
@@ -19,7 +20,6 @@ guruguru = require "./lib/guruguru"
 nib = require "nib"
 nsg = require "node-sprite-generator"
 stylusUse = require "./lib/stylus-use"
-globalParam = require "./global-param"
 
 isDebug = not args.release?
 isHighSpeedMode = args.hs?
@@ -35,36 +35,29 @@ gulp.task "jade", ->
       errorHandler: (err) -> console.log err.message
     .pipe jade
       pretty: true
-      data: globalParam
+      data: require "./global-param"
     .pipe gulp.dest dest
     .pipe connect.reload()
 
 gulp.task "stylus", ->
-  param =
-    use: [
-      nib()
-      stylusUse
-        imageUrlPrefix: "../img"
-        imagePathPrefix: "#{src}/img"
-        globalParam: globalParam
-    ]
-    compress: not isDebug
-
-  if isDebug
-    param.sourcemap =
-      inline: isDebug
-
   gulp
     .src "#{src}/stylus/style.styl"
     .pipe plumber
       errorHandler: (err) -> console.log err.message
-    .pipe stylus param
+    .pipe stylus
+      use: [
+        nib()
+        stylusUse
+          imageUrlPrefix: "../img"
+          imagePathPrefix: "#{src}/img"
+          globalParam: require "./global-param"
+      ]
+      compress: not isDebug
+      sourcemap: inline: isDebug if isDebug
     .pipe gulp.dest "#{dest}/css"
     .pipe connect.reload()
 
 gulp.task "coffeeify", ->
-  param =
-
   gulp
     .src "#{src}/coffee/app.coffee"
     .pipe gulpIf isDebug, sourcemaps.init()
@@ -160,19 +153,18 @@ gulp.task "watch", ["connect", "guruguru"], ->
   gulp.watch "src/stylus/**/*.styl", ["stylus"]
   gulp.watch "src/coffee/**/*.coffee", ["coffeeify"]
   gulp.watch "src/json/**/*.json", ["copy-json"]
-  gulp.watch "global-param.json", ["jade", "stylus", "coffeeify"]
+  gulp.watch "global-param.coffee", ["jade", "stylus", "coffeeify"]
 
-gulp.task "clean", (done) -> del dest, done
-
-gulp.task "default", [
-  "clean",
-  "jade",
-  "stylus",
-  "coffeeify",
-  "copy-img",
-  "copy-js",
-  "copy-json",
-  "copy-sound",
-  "copy-swf",
-  "copy-video",
-]
+gulp.task "clean", -> del dest
+gulp.task "default", ->
+  runSequence "clean", [
+    "jade",
+    "stylus",
+    "coffeeify",
+    "copy-img",
+    "copy-js",
+    "copy-json",
+    "copy-sound",
+    "copy-swf",
+    "copy-video",
+  ]

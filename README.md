@@ -1,6 +1,5 @@
 ## 必要なもの
-* Node
-* gulp
+* Node.js, npm
 * GraphicsMagick (スプライトの生成に使う)
 
 ## Instaration
@@ -10,34 +9,27 @@
   brew install graphicsmagick
   ```
 
-2. gulp をグローバルにインストール
-  ```sh
-  npm install gulp -g
-  ```
-
-3. npm install する
+2. npm install する
   ```
   npm install
   ```
 
-##gulp コマンド
+## コマンド
 
---release をつけると、リリース用のパスで実行
-
-### gulp
-
-* gulp jade
-* gulp stylus
-* gulp coffeeify (coffee + browserify)
-* gulp copy-*
-
-を全部やる
-
-### gulp watch
+### npm run watch
 
 jade, stylus, coffee の監視
 
-### gulp sprite --dir directory_name
+### npm run build
+
+release フォルダにビルド
+
+### npm test
+
+mocha と phantomで書かれたテストが走る
+たぶんね
+
+### npm run sprite --dir directory_name
 
 スプライト画像と、スプライト用のstylusを作る  
 パスは、src/imgからの相対パス  
