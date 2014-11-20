@@ -8,7 +8,6 @@ gulp = require "gulp"
 jade = require "gulp-jade"
 stylus = require "gulp-stylus"
 rename = require "gulp-rename"
-mocha = require "gulp-mocha-phantomjs"
 plumber = require "gulp-plumber"
 connect = require "gulp-connect"
 uglify = require "gulp-uglify"
@@ -73,11 +72,6 @@ gulp.task "coffeeify", ->
     .pipe gulp.dest "#{dest}/js"
     .pipe connect.reload()
   
-gulp.task "test", ->
-  gulp
-    .src "#{dest}/*.test.html"
-    .pipe mocha()
-
 gulp.task "copy-img", ->
   gulp
     .src [

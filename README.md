@@ -24,11 +24,6 @@ jade, stylus, coffee の監視
 
 release フォルダにビルド
 
-### npm test
-
-mocha と phantomで書かれたテストが走る
-たぶんね
-
 ### npm run sprite --dir directory_name
 
 スプライト画像と、スプライト用のstylusを作る  
