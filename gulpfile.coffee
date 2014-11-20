@@ -71,54 +71,16 @@ gulp.task "coffeeify", ->
       extname: ".js"
     .pipe gulp.dest "#{dest}/js"
     .pipe connect.reload()
-  
-gulp.task "copy-img", ->
+
+gulp.task "copy", ->
   gulp
     .src [
       "#{src}/img/**/*.png"
       "#{src}/img/**/*.jpg"
       "#{src}/img/**/*.gif"
     ],
-      base: "#{src}/img"
-    .pipe gulp.dest "#{dest}/img"
-    .pipe connect.reload()
-
-gulp.task "copy-js", ->
-  gulp
-    .src "#{src}/js/**/*.js",
-      base: "#{src}/js"
-    .pipe gulp.dest "#{dest}/js"
-    .pipe connect.reload()
-
-gulp.task "copy-swf", ->
-  gulp
-    .src "#{src}/swf/**/*.swf",
-      base: "#{src}/swf"
-    .pipe gulp.dest "#{dest}/swf"
-    .pipe connect.reload()
-
-gulp.task "copy-json", ->
-  gulp
-    .src "#{src}/json/**/*.json",
-      base: "#{src}/json"
-    .pipe gulp.dest "#{dest}/json"
-    .pipe connect.reload()
-
-gulp.task "copy-sound", ->
-  gulp
-    .src [
-      "#{src}/sound/**/*.mp3"
-      "#{src}/sound/**/*.ogg"
-    ],
-      base: "#{src}/sound"
-    .pipe gulp.dest "#{dest}/sound"
-    .pipe connect.reload()
-
-gulp.task "copy-video", ->
-  gulp
-    .src "#{src}/video/**/*.mp4",
-      base: "#{src}/video"
-    .pipe gulp.dest "#{dest}/video"
+      base: src
+    .pipe gulp.dest dest
     .pipe connect.reload()
 
 gulp.task "sprite", ->
@@ -143,10 +105,9 @@ gulp.task "guruguru", ->
   guruguru gulp, isHighSpeedMode if not isNoSpeedMode
 
 gulp.task "watch", ["connect", "guruguru"], ->
-  gulp.watch "src/jade/**/*.jade", ["jade"]
-  gulp.watch "src/stylus/**/*.styl", ["stylus"]
-  gulp.watch "src/coffee/**/*.coffee", ["coffeeify"]
-  gulp.watch "src/json/**/*.json", ["copy-json"]
+  gulp.watch "#{src}/jade/**/*.jade", ["jade"]
+  gulp.watch "#{src}/stylus/**/*.styl", ["stylus"]
+  gulp.watch "#{src}/coffee/**/*.coffee", ["coffeeify"]
   gulp.watch "global-param.coffee", ["jade", "stylus", "coffeeify"]
 
 gulp.task "clean", -> del dest
@@ -155,10 +116,5 @@ gulp.task "default", ->
     "jade",
     "stylus",
     "coffeeify",
-    "copy-img",
-    "copy-js",
-    "copy-json",
-    "copy-sound",
-    "copy-swf",
-    "copy-video",
+    "copy",
   ]
