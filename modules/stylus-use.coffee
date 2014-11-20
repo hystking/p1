@@ -41,11 +41,14 @@ class ImageDataManager
 parse = (obj) ->
   switch typeof obj
     when "string"
-      new nodes.Literal obj
+      ltr = new nodes.Literal obj
+      ltr.filename = ""
+      ltr
     when "object"
       _.mapValues obj, parse
 
 module.exports = (paths, globalParam) -> (styl) ->
+  
   imageDataMaanager = new ImageDataManager
     urlPrefix: path.relative paths.dest.css, paths.dest.img
     pathPrefix: paths.src.img
@@ -60,9 +63,10 @@ module.exports = (paths, globalParam) -> (styl) ->
 
   imageWidth = (node) -> (imageSize node).width
   imageHeight = (node) -> (imageSize node).height
-
+  
   styl.define "image-url", imageUrl
   styl.define "image-width", imageWidth
   styl.define "image-height", imageHeight
+
   _.each globalParam, (val, key) ->
     styl.define key, (parse val), true

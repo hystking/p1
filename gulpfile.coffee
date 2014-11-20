@@ -149,7 +149,7 @@ gulp.task "copy-sound", ->
   gulp
     .src (
       _.map ["**/*.mp3", "**/*.wav", "**/*.org"], (x) ->
-      path.join paths.src.sound, x
+        path.join paths.src.sound, x
     ),
       base: paths.src.sound
     .pipe gulp.dest paths.dest.sound

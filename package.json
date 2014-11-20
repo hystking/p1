@@ -15,7 +15,6 @@
     "lodash": "^2.4.1",
     "colors": "^1.0.3",
     "gulp-jade": "^0.9.0",
-    "gulp-stylus": "1.3.3",
     "gulp-rename": "^1.2.0",
     "gulp-mocha-phantomjs": "^0.5.1",
     "gulp-plumber": "^0.6.6",
@@ -27,8 +26,9 @@
     "node-sprite-generator": "^0.7.0",
     "browserify": "^6.3.2",
     "vinyl-transform": "0.0.1",
-    "stylus": "^0.49.3",
-    "coffeeify": "^1.0.0"
+    "stylus": "0.49.2",
+    "coffeeify": "^1.0.0",
+    "gulp-stylus": "^1.3.4"
   },
   "browser": {
     "global-param": "./global-param.coffee"
