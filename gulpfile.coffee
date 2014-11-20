@@ -12,6 +12,7 @@ plumber = require "gulp-plumber"
 connect = require "gulp-connect"
 uglify = require "gulp-uglify"
 sourcemaps = require "gulp-sourcemaps"
+mocha = require "gulp-mocha"
 gulpIf = require "gulp-if"
 coffeeify = require "./lib/coffeeify"
 guruguru = require "./lib/guruguru"
@@ -100,6 +101,11 @@ gulp.task "connect", ->
     host: "0.0.0.0"
     port: 9000
     livereload: true
+
+gulp.task "test", ->
+  gulp
+    .src "test/**/*.coffee", read: false
+    .pipe mocha reporter: "nyan"
 
 gulp.task "guruguru", ->
   guruguru gulp, isHighSpeedMode if not isNoSpeedMode
