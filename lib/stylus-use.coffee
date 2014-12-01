@@ -4,6 +4,8 @@ fs = require "fs"
 
 nodes = stylus.nodes
 
+###
+
 uint16 = (b) -> b[1] << 8 | b[0]
 uint32 = (b) -> b[0] << 24 | b[1] << 16 | b[2] << 8 | b[3]
 
@@ -37,6 +39,8 @@ class ImageDataManager
       path: filePath
       url: fileUrl
 
+###
+
 parse = (obj) ->
   switch typeof obj
     when "string"
@@ -47,7 +51,7 @@ parse = (obj) ->
       _.mapValues obj, parse
 
 module.exports = ({imageUrlPrefix, imagePathPrefix, globalParam}) -> (styl) ->
-  
+  ###
   imageDataMaanager = new ImageDataManager
     urlPrefix: imageUrlPrefix
     pathPrefix: imagePathPrefix
@@ -66,6 +70,6 @@ module.exports = ({imageUrlPrefix, imagePathPrefix, globalParam}) -> (styl) ->
   styl.define "image-url", imageUrl
   styl.define "image-width", imageWidth
   styl.define "image-height", imageHeight
-
+  ###
   _.each globalParam, (val, key) ->
     styl.define key, (parse val), true
