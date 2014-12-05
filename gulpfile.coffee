@@ -22,8 +22,9 @@ nsg = require "node-sprite-generator"
 stylusUse = require "./lib/stylus-use"
 
 isDebug = not args.release?
-isHighSpeedMode = args.hs?
-isNoSpeedMode = args.ns?
+rotatingSpeed = args.speed
+#isHighSpeedMode = args.hsm?
+#isNoSpeedMode = args.stop?
 
 src = "src"
 dest = if isDebug then "debug" else "release"
@@ -108,7 +109,7 @@ gulp.task "test", ->
     .pipe mocha reporter: "nyan"
 
 gulp.task "guruguru", ->
-  guruguru gulp, isHighSpeedMode if not isNoSpeedMode
+  guruguru gulp, rotatingSpeed
 
 gulp.task "watch", ["connect", "guruguru"], ->
   gulp.watch "#{src}/jade/**/*.jade", ["jade"]

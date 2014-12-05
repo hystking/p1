@@ -1,6 +1,6 @@
 suddenDeath = require "./sudden-death"
 
-module.exports = (gulp, isHighSpeedMode) ->
+module.exports = (gulp, rotatingSpeed) ->
   lastTask = ""
   taskStarted = false
   times = 0
@@ -20,7 +20,7 @@ module.exports = (gulp, isHighSpeedMode) ->
     taskStarted = false
   
   steps = 6
-  duration = if isHighSpeedMode then 400 else 1800
+  duration = 1600 / (rotatingSpeed or 1)
   interval = duration / steps | 0
 
   setInterval =>

@@ -24,7 +24,7 @@ jade, stylus, coffee の監視
 
 release フォルダにビルド
 
-### npm run sprite --dir directory_name
+### npm run sprite -- --dir directory_name
 
 スプライト画像と、スプライト用のstylusを作る  
 パスは、src/imgからの相対パス  
