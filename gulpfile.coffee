@@ -23,11 +23,9 @@ stylusUse = require "./lib/stylus-use"
 
 isDebug = not args.release?
 rotatingSpeed = args.speed
-#isHighSpeedMode = args.hsm?
-#isNoSpeedMode = args.stop?
 
-src = "src"
-dest = if isDebug then "debug" else "release"
+src = args.src or "src"
+dest = args.dest or if isDebug then "debug" else "release"
 
 gulp.task "jade", ->
   gulp
