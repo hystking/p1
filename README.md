@@ -20,6 +20,11 @@
 
 jade, stylus, coffee の監視
 
+### npm run gulp
+
+debug フォルダにビルド  
+ネーミングが雑なので直したい
+
 ### npm run build
 
 release フォルダにビルド
