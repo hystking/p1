@@ -23,7 +23,7 @@
 * --release release build
 * --sp convert enviroment to smartphone mode
 
-**すべて"--"を挟む**
+**オプションは、すべて"--"を挟む**
 
 ```
 npm run build -- --release
