@@ -21,11 +21,29 @@ nib = require "nib"
 nsg = require "node-sprite-generator"
 stylusUse = require "./lib/stylus-use"
 
+##################################################
+
+isSp = not args.sp?
 isDebug = not args.release?
-rotatingSpeed = args.speed
+
+##################################################
 
 src = args.src or "src"
-dest = args.dest or if isDebug then "debug" else "release"
+dest = args.dest or "debug"
+
+unless isDebug
+  dest = "release"
+
+##################################################
+
+globalParam = {}
+
+if isSp
+  globalParam = require "./global-param-sp"
+else
+  globalParam = require "./global-param-pc"
+
+##################################################
 
 gulp.task "jade", ->
   gulp
@@ -34,7 +52,7 @@ gulp.task "jade", ->
       errorHandler: (err) -> console.log err.message
     .pipe jade
       pretty: true
-      data: require "./global-param"
+      data: globalParam
     .pipe gulp.dest dest
     .pipe connect.reload()
 
@@ -49,7 +67,7 @@ gulp.task "stylus", ->
         stylusUse
           imageUrlPrefix: "../img"
           imagePathPrefix: "#{src}/img"
-          globalParam: require "./global-param"
+          globalParam: globalParam
       ]
       compress: not isDebug
       sourcemap: inline: isDebug if isDebug
@@ -94,7 +112,7 @@ gulp.task "sprite", ->
       prefix: dirname + "-"
       spritePath: "../img/#{dirname}.png"
 
-gulp.task "connect", ->
+gulp.task "serve", ->
   connect.server
     root: [__dirname]
     host: "0.0.0.0"
@@ -107,16 +125,18 @@ gulp.task "test", ->
     .pipe mocha reporter: "nyan"
 
 gulp.task "guruguru", ->
+  rotatingSpeed = args.speed
   guruguru gulp, rotatingSpeed
 
-gulp.task "watch", ["connect", "guruguru"], ->
+gulp.task "watch", ["guruguru"], ->
   gulp.watch "#{src}/jade/**/*.jade", ["jade"]
   gulp.watch "#{src}/stylus/**/*.styl", ["stylus"]
   gulp.watch "#{src}/coffee/**/*.coffee", ["coffeeify"]
   gulp.watch "global-param.coffee", ["jade", "stylus", "coffeeify"]
 
 gulp.task "clean", -> del dest
-gulp.task "default", ->
+
+gulp.task "build", ->
   runSequence "clean", [
     "jade",
     "stylus",

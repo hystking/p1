@@ -10,17 +10,9 @@ module.exports =
     description: "ディスクリプション"
     url: "http://example.org/"
 
-  a:
-    b:
-      c: "d"
-
   layout:
-    width: "900px"
+    width: "960px"
 
   font:
     gothic: "#{HIRAGINO_GOTHIC}, #{MEIRYO}, sans-serif"
     mincho: "#{YU_MINCHO}, #{HIRAGINO_MINCHO}, #{MEIRYO}, sans-serif"
-
-  color:
-    main: "#666"
-    sub: "#ccc"

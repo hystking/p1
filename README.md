@@ -16,18 +16,30 @@
 
 ## コマンド
 
+### options
+
+* --src source-directory
+* --dest destination-directory
+* --release release build
+* --sp convert enviroment to smartphone mode
+
+**すべて"--"を挟む**
+
+```
+npm run build -- --release
+```
+
+### npm run serve
+
+0.0.0.0:9000 にサーバを立てる
+
 ### npm run watch
 
 jade, stylus, coffee の監視
 
-### npm run gulp
-
-debug フォルダにビルド  
-ネーミングが雑なので直したい
-
 ### npm run build
 
-release フォルダにビルド
+ビルド  
 
 ### npm run sprite -- --dir directory_name
 

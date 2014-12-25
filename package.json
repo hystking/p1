@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "watch": "gulp watch",
-    "build": "gulp --release",
+    "serve": "gulp serve",
+    "build": "gulp build",
     "test": "gulp test",
-    "sprite": "gulp sprite",
-    "gulp": "gulp"
+    "sprite": "gulp sprite"
   },
   "author": "gon",
   "license": "MIT",
