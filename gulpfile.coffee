@@ -146,7 +146,7 @@ gulp.task "watch", ["guruguru"], ->
     "#{src}/coffee/**/*.js"
   ], ["coffeeify"]
 
-  gulp.watch "global-param.coffee", ["jade", "stylus", "coffeeify"]
+  gulp.watch "global-param*.coffee", ["jade", "stylus", "coffeeify"]
 
 gulp.task "clean", -> del dest
 
