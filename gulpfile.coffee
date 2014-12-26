@@ -36,12 +36,12 @@ unless isDebug
 
 ##################################################
 
-globalParam = {}
 
-if isSp
-  globalParam = require "./global-param-sp"
-else
-  globalParam = require "./global-param-pc"
+getGlobalParam = ->
+  if isSp
+    require "./global-param-sp"
+  else
+    require "./global-param-pc"
 
 ##################################################
 
@@ -52,7 +52,7 @@ gulp.task "jade", ->
       errorHandler: (err) -> console.log err.message
     .pipe jade
       pretty: true
-      data: globalParam
+      data: getGlobalParam()
     .pipe gulp.dest dest
     .pipe connect.reload()
 
@@ -67,7 +67,7 @@ gulp.task "stylus", ->
         stylusUse
           imageUrlPrefix: "../img"
           imagePathPrefix: "#{src}/img"
-          globalParam: globalParam
+          globalParam: getGlobalParam()
       ]
       compress: not isDebug
       sourcemap: inline: isDebug if isDebug
@@ -129,9 +129,22 @@ gulp.task "guruguru", ->
   guruguru gulp, rotatingSpeed
 
 gulp.task "watch", ["guruguru"], ->
-  gulp.watch "#{src}/jade/**/*.jade", ["jade"]
-  gulp.watch "#{src}/stylus/**/*.styl", ["stylus"]
-  gulp.watch "#{src}/coffee/**/*.coffee", ["coffeeify"]
+  
+  gulp.watch [
+    "#{src}/jade/**/*.jade"
+    "#{src}/jade/**/*.html"
+  ], ["jade"]
+
+  gulp.watch [
+    "#{src}/stylus/**/*.styl"
+    "#{src}/stylus/**/*.css"
+  ], ["stylus"]
+
+  gulp.watch [
+    "#{src}/coffee/**/*.coffee"
+    "#{src}/coffee/**/*.js"
+  ], ["coffeeify"]
+
   gulp.watch "global-param.coffee", ["jade", "stylus", "coffeeify"]
 
 gulp.task "clean", -> del dest
