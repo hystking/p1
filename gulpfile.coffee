@@ -65,8 +65,6 @@ gulp.task "stylus", ->
       use: [
         nib()
         stylusUse
-          imageUrlPrefix: "../img"
-          imagePathPrefix: "#{src}/img"
           globalParam: getGlobalParam()
       ]
       compress: not isDebug
