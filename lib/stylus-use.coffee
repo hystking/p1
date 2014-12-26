@@ -13,6 +13,10 @@ parse = (obj) ->
       ltr = new nodes.Unit obj, "px"
       ltr.filename = ""
       ltr
+    when "boolean"
+      ltr = new nodes.Boolean obj
+      ltr.filename = ""
+      ltr
     when "object"
       _.mapValues obj, parse
 
