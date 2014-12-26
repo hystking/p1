@@ -109,7 +109,7 @@ gulp.task "sprite", ->
     spritePath: "#{src}/img/#{dirname}.png"
     stylesheetPath: "#{src}/stylus/sprite/#{dirname}.styl"
     stylesheetOptions:
-      prefix: dirname + "-"
+      prefix: "#{dirname}-"
       spritePath: "../img/#{dirname}.png"
 
 gulp.task "serve", ->
