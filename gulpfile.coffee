@@ -23,7 +23,7 @@ stylusUse = require "./lib/stylus-use"
 
 ##################################################
 
-isSp = not args.sp?
+isSp = args.sp?
 isDebug = not args.release?
 
 ##################################################
