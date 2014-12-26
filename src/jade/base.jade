@@ -2,32 +2,9 @@ doctype
 html
   head
     block meta
-      meta(charset="utf8")
-
-      // Meta Infomation
-      title= title
-      meta(name="description", content=meta.description)
-      meta(name="keywords", content=meta.keywords)
-
-      // Facebook OGP
-      meta(name="og:title", content=meta.title)
-      meta(name="og:description", content=meta.description)
-      meta(name="og:type", content="website")
-      meta(name="og:url", content=meta.url)
-      meta(name="og:image", content=meta.url)
-      meta(name="og:site_name", content=meta.title)
-
-      // IE Setting
-      meta(http-equiv="X-UA-Compatible", content="IE=Edge")
-
-      // viewport
-      meta(name="viewport", content="width=device-width,initial-scale=1.0")
-
-    block script-head
     block stylesheet
-      link(href="css/style.css", rel="stylesheet")
+    block script-head
 
   body
     block content
-    block script
-      script(src="js/app.js")
+    block script-body

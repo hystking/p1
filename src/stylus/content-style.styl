@@ -1,0 +1,36 @@
+if isSp
+  @import "sprite/sample-sp"
+else
+  @import "sprite/sample"
+&
+  position: relative
+  width: layout.width
+  min-height: 100%
+  background: #333
+  color: #fff
+  margin: 0 auto
+  padding: s(32px)
+  &, *
+    box-sizing: border-box
+h1
+  &:before
+    content: ""+pixelRatio
+  font-size: s(32px)
+  line-height: s(32px*2)
+  font-family: font.gothic
+
+p
+  font-size: s(16px)
+  line-height: s(16px*2)
+  font-family: font.mincho
+
+.sample-text-1
+.sample-text-yolo
+  display: block
+  line-height: s(42px)
+
+.sample-text-1
+  sample-sprite(sample-text-1)
+  
+.sample-text-yolo
+  sample-sprite(sample-text-yolo)

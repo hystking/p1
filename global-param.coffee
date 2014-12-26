@@ -4,14 +4,17 @@ HIRAGINO_MINCHO = "\"Hiragino Mincho ProN\", \"ヒラギノ明朝 ProN W3\""
 MEIRYO = "Meiryo, \"メイリオ\""
 
 module.exports =
+  pixelRatio: 1
   meta:
+    slug: "peraichi"
     title: "ページタイトル"
     keywords: "キーワード"
     description: "ディスクリプション"
     url: "http://example.org/"
+    ogImage: "http://example.org/img/ogp.jpg"
 
   layout:
-    width: "960px"
+    width: 960
 
   font:
     gothic: "#{HIRAGINO_GOTHIC}, #{MEIRYO}, sans-serif"

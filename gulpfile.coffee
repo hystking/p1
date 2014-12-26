@@ -101,14 +101,17 @@ gulp.task "copy", ->
 
 gulp.task "sprite", ->
   dirname = args.dir
+  spPrefix = if isSp then "-sp" else ""
+  pixelRatio = if isSp then 2 else 1
   return if not dirname?
   nsg
     src: ["#{src}/img/#{dirname}/*.png"]
     spritePath: "#{src}/img/#{dirname}.png"
-    stylesheetPath: "#{src}/stylus/sprite/#{dirname}.styl"
+    stylesheetPath: "#{src}/stylus/sprite/#{dirname}#{spPrefix}.styl"
     stylesheetOptions:
       prefix: "#{dirname}-"
       spritePath: "../img/#{dirname}.png"
+      pixelRatio: pixelRatio
 
 gulp.task "serve", ->
   connect.server

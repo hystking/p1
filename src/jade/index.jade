@@ -1,3 +1,14 @@
 extend base
+
+block meta
+  include meta
+
 block content
- include content-index-pc
+  div(class=meta.slug)
+    include content-index
+
+block stylesheet
+  link(href="css/style.css", rel="stylesheet")
+
+block script-body
+  script(src="js/app.js")

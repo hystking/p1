@@ -1,12 +1,9 @@
 @import base
-  
-h1:before
-  content: "" + meta.title + " by Stylus"
-  display: block
-  
-  font-family: font.mincho
 
-h1:after
-  content: ""
-  display: block
-  replace("../img/your-face.png")
+global-reset()
+
+body, html
+  height: 100%
+
+.{meta.slug}
+  @import content-style

@@ -9,6 +9,10 @@ parse = (obj) ->
       ltr = new nodes.Literal obj
       ltr.filename = ""
       ltr
+    when "number"
+      ltr = new nodes.Unit obj, "px"
+      ltr.filename = ""
+      ltr
     when "object"
       _.mapValues obj, parse
 
