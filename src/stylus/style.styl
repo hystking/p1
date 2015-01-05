@@ -1,9 +1,22 @@
 @import base
 
+//
+//  Import Mixins
+//
+@import "mixin/replace"
+
+//
+//  Global Rest
+//
+
 global-reset()
 
 body, html
   height: 100%
 
+//
+//  Modules
+//
+
 .{meta.slug}
-  @import content-style
+  @import "partial/content"
