@@ -21,7 +21,7 @@
 * --src source-directory
 * --dest destination-directory
 * --release release build
-* --sp convert enviroment to smartphone mode
+* --sp switch enviroment to smartphone mode
 
 **オプションは、すべて"--"を挟む**
 
