@@ -79,7 +79,7 @@ phantom とかは入れてないので、ユニットテストだけ
 * 容易に移植できることを心がける。ex. index.jade の内容を some-page.jade の .content 内に埋める・・・とか
 * ヘッダとかフッタとかの共通パーツのテンプレートを書くのもここ
 
-### partial/**/*.jade, partial/**/*.styl, partial/**/*.coffee
+### partial/\*\*/\*.jade, partial/\*\*/\*.styl, partial/\*\*/\*.coffee
 
 パーツ
 
@@ -87,7 +87,7 @@ phantom とかは入れてないので、ユニットテストだけ
 * セクションとか
 * ファイルが見やすくなるまでガンガン分割する
 
-### module/**/*.jade, module/**/*.styl, module**/*.coffee
+### module/\*\*/\*.jade, module/\*\*/\*.styl, module/\*\*/\*.coffee
 
 独立したモジュール
 * 機能的に独立し、使いまわせるモジュールを書く
@@ -106,21 +106,24 @@ partial は、**"全体をラッパでくくらないスタイルを記述すべ
       .some-module
 ```
 
-```style.styl
-@import module/some-module
+style.styl
+```
 .slug
   .section
     @import partial/some-partial
 ```
 
-```module/some-module.styl
-.some-module
-  module styles
+partial/some-partial.styl
 ```
-
-```partial/some-partial.styl
 &
   partial style
+  @import module/some-module
+```
+
+module/some-module.styl
+```
+.some-module
+  module styles
 ```
 
 このようにすることで、コンテンツの移植が用意になる
