@@ -2,16 +2,15 @@ if isSp
   @import "../sprite/sample-sp"
 else
   @import "../sprite/sample"
+
 &
-  position: relative
   width: layout.width
-  min-height: 100%
-  background: #333
-  color: #fff
   margin: 0 auto
   padding: s(32px)
-  &, *
-    box-sizing: border-box
+  
+  background: #333
+  color: #fff
+
 h1
   &:before
     content: ""+pixelRatio

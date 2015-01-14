@@ -6,7 +6,7 @@
 @import "mixin/replace"
 
 //
-//  Global Rest
+//  Global Reset
 //
 
 global-reset()
@@ -15,8 +15,20 @@ body, html
   height: 100%
 
 //
+//  Wrapper Style
+//
+
+.{meta.slug}
+  position: relative
+  min-height: 100%
+  font-family: font.gothic
+  &, *
+    box-sizing: border-box
+
+//
 //  Modules
 //
 
 .{meta.slug}
-  @import "partial/content"
+  .top
+    @import "partial/top"

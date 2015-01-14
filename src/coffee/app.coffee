@@ -1,1 +1,1 @@
-globalParam = require "global-param"
+param = require "global-param"
