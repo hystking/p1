@@ -3,6 +3,7 @@ args = (require "yargs").argv
 colors = require "colors"
 del = require "del"
 runSequence = require "run-sequence"
+mainBowerFiles = require "main-bower-files"
 
 gulp = require "gulp"
 jade = require "gulp-jade"
@@ -94,6 +95,7 @@ gulp.task "copy", ->
       "#{src}/img/**/*.png"
       "#{src}/img/**/*.jpg"
       "#{src}/img/**/*.gif"
+      "#{src}/js/**/*.js"
     ],
       base: src
     .pipe gulp.dest dest
@@ -147,6 +149,10 @@ gulp.task "watch", ["guruguru"], ->
   ], ["coffeeify"]
 
   gulp.watch "global-param*.coffee", ["jade", "stylus", "coffeeify"]
+
+gulp.task "bower-scaffold", ->
+  gulp.src mainBowerFiles()
+    .pipe gulp.dest "#{src}/js/lib"
 
 gulp.task "clean", -> del dest
 

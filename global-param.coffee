@@ -5,6 +5,7 @@ MEIRYO = "Meiryo, \"メイリオ\""
 
 module.exports =
   pixelRatio: 1
+
   meta:
     slug: "peraichi"
     title: "ページタイトル"
@@ -13,9 +14,9 @@ module.exports =
     url: "http://example.org/"
     ogImage: "http://example.org/img/ogp.jpg"
 
-  layout:
-    width: 960
-
   font:
     gothic: "#{HIRAGINO_GOTHIC}, #{MEIRYO}, sans-serif"
     mincho: "#{YU_MINCHO}, #{HIRAGINO_MINCHO}, #{MEIRYO}, sans-serif"
+  
+  layout:
+    width: 960

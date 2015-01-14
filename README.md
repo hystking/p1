@@ -53,3 +53,65 @@ src/stylus/sprite/directory_name.styl
 
 test/ 以下のテストを走らせる。  
 phantom とかは入れてないので、ユニットテストだけ
+
+## ファイル構成について
+
+### base.jade, base.styl
+
+ベースファイル
+* ブロックやユーティリティなどの読み込み。  
+* 最終的なコンテンツに依存するような内容は書かない。  
+* いじるべきではない。
+
+### index.jade, style.styl, app.coffee
+
+エントリポイント  
+* モジュールとパーツの読み込み。
+* 容易に移植できることを心がける。ex. index.jade の内容を some-page.jade の .content 内に埋める・・・とか
+* ヘッダとかフッタとかの共通パーツのテンプレートを書くのもここ
+
+### partial/**/*.jade, partial/**/*.styl, partial/**/*.coffee
+
+パーツ
+
+* サイトのパーツを切り分けて書く
+* セクションとか
+* ファイルが見やすくなるまでガンガン分割する
+
+### module/**/*.jade, module/**/*.styl, module**/*.coffee
+
+独立したモジュール
+* 機能的に独立し、使いまわせるモジュールを書く
+* ソーシャルボタンとか
+
+### CSS の独立性を維持するために
+
+module は、**"全体をラッパでくくったスタイルを記述すべき"**  
+partial は、**"全体をラッパでくくらないスタイルを記述すべき"**
+
+例:
+```jade
+.slug
+  .section
+    .some-content
+      .some-module
+```
+
+```style.styl
+@import module/some-module
+.slug
+  .section
+    @import partial/some-partial
+```
+
+```module/some-module.styl
+.some-module
+  module styles
+```
+
+```partial/some-partial.styl
+&
+  partial style
+```
+
+このようにすることで、コンテンツの移植が用意になる
