@@ -46,10 +46,6 @@ jade, stylus, coffee の監視
 bower install のあと、
 main ファイルを src/js/lib 以下に吐き出す
 
-### npm run init
-
-初期化
-
 ### npm run sprite -- --dir directory_name
 
 スプライト画像と、スプライト用のstylusを作る  
