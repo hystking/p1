@@ -24,7 +24,7 @@ stylusUse = require "./lib/stylus-use"
 
 ##################################################
 
-isSp = args.sp?
+isPc = args.pc?
 isDebug = not args.release?
 
 ##################################################
@@ -39,10 +39,10 @@ unless isDebug
 
 
 getGlobalParam = ->
-  if isSp
-    require "./global-param-sp"
+  if isPc
+    require "./pc-global-param"
   else
-    require "./global-param-pc"
+    require "./global-param"
 
 ##################################################
 
@@ -103,13 +103,14 @@ gulp.task "copy", ->
 
 gulp.task "sprite", ->
   dirname = args.dir
-  spPrefix = if isSp then "-sp" else ""
-  pixelRatio = if isSp then 2 else 1
+  pcPrefix = if isPc then "-pc" else ""
+  pixelRatio = if isPc then 1 else 2
+  console.log colors.red pixelRatio
   return if not dirname?
   nsg
     src: ["#{src}/img/#{dirname}/*.png"]
     spritePath: "#{src}/img/#{dirname}.png"
-    stylesheetPath: "#{src}/stylus/sprite/#{dirname}#{spPrefix}.styl"
+    stylesheetPath: "#{src}/stylus/sprite/#{dirname}#{pcPrefix}.styl"
     stylesheetOptions:
       prefix: "#{dirname}-"
       spritePath: "../img/#{dirname}.png"

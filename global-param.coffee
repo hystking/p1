@@ -5,8 +5,8 @@ YU_MINCHO = "YuMincho, \"游明朝\""
 MEIRYO = "Meiryo, \"メイリオ\""
 
 module.exports =
-  pixelRatio: 1
-
+  pixelRatio: 2
+  isPc: false
   meta:
     slug: "peraichi"
     title: "ページタイトル"
@@ -20,4 +20,4 @@ module.exports =
     mincho: "#{YU_MINCHO}, #{HIRAGINO_MINCHO}, #{MEIRYO}, sans-serif"
   
   layout:
-    width: 960
+    width: 320
