@@ -157,7 +157,7 @@ gulp.task "bower-scaffold", ->
       preserveComments: "some"
     .pipe gulp.dest "#{dest}/js/lib"
 
-gulp.task "clean", -> del dest
+gulp.task "clean", (callback) -> del dest, callback
 
 gulp.task "build", ->
   runSequence "clean", [
