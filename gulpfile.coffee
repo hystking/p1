@@ -80,8 +80,8 @@ gulp.task "coffeeify", ->
     .pipe coffeeify
       extensions: [".coffee"]
       debug: isDebug
-    .pipe gulpIf !isDebug, uglify
-      preserveComments: "all"
+    .pipe gulpIf not isDebug, uglify
+      preserveComments: "some"
     .pipe gulpIf isDebug, sourcemaps.write()
     .pipe sourcemaps.write()
     .pipe rename
@@ -153,14 +153,17 @@ gulp.task "watch", ["guruguru"], ->
 
 gulp.task "bower-scaffold", ->
   gulp.src mainBowerFiles()
-    .pipe gulp.dest "#{src}/js/lib"
+    .pipe gulpIf not isDebug, uglify
+      preserveComments: "some"
+    .pipe gulp.dest "#{dest}/js/lib"
 
 gulp.task "clean", -> del dest
 
 gulp.task "build", ->
   runSequence "clean", [
-    "jade",
-    "stylus",
-    "coffeeify",
-    "copy",
+    "jade"
+    "stylus"
+    "coffeeify"
+    "copy"
+    "bower-scaffold"
   ]

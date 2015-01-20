@@ -9,8 +9,8 @@
     "build": "gulp build",
     "test": "gulp test",
     "sprite": "gulp sprite",
-    "bower": "bower install; gulp bower-scaffold",
-    "postinstall": "npm run bower; npm run build"
+    "bower-scaffold": "gulp bower-scaffold",
+    "postinstall": "bower install"
   },
   "author": "gon",
   "license": "MIT",
