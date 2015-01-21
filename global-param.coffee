@@ -4,6 +4,10 @@ HIRAGINO_MINCHO = "\"Hiragino Mincho ProN\", \"ヒラギノ明朝 ProN W3\""
 YU_MINCHO = "YuMincho, \"游明朝\""
 MEIRYO = "Meiryo, \"メイリオ\""
 
+DOMAIN = "example.org"
+PATH = "/"
+URL = "http://#{DOMAIN}#{PATH}"
+
 module.exports =
   pixelRatio: 2
   isPc: false
@@ -13,8 +17,8 @@ module.exports =
     title: "ページタイトル"
     keywords: "キーワード"
     description: "ディスクリプション"
-    url: "http://example.org/"
-    ogImage: "http://example.org/img/ogp.jpg"
+    url: URL
+    ogImage: "#{URL}img/ogp.jpg"
 
   font:
     gothic: "#{YU_GOTHIC}, #{HIRAGINO_GOTHIC}, #{MEIRYO}, sans-serif"
