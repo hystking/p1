@@ -135,7 +135,7 @@ gulp.task "sprite", ->
 
 gulp.task "serve", ->
   connect.server
-    root: [__dirname]
+    root: [dest]
     host: "0.0.0.0"
     port: 9000
     livereload: true
