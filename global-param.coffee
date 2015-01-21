@@ -7,6 +7,7 @@ MEIRYO = "Meiryo, \"メイリオ\""
 module.exports =
   pixelRatio: 2
   isPc: false
+
   meta:
     slug: "peraichi"
     title: "ページタイトル"

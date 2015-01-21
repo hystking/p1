@@ -27,22 +27,25 @@ stylusUse = require "./lib/stylus-use"
 isPc = args.pc?
 isDebug = not args.release?
 
-##################################################
-
-src = args.src or "src"
-dest = args.dest or "debug"
-
-unless isDebug
-  dest = "release"
-
-##################################################
-
-
 getGlobalParam = ->
   if isPc
     require "./pc-global-param"
   else
     require "./global-param"
+
+getSuffix = ->
+  if isPc
+    "-pc"
+  else
+    ""
+
+##################################################
+
+src = args.src or "src"
+dest = args.dest or "debug"
+unless isDebug
+  dest = "release"
+dest = "#{dest}#{getSuffix()}"
 
 ##################################################
 
@@ -72,6 +75,22 @@ gulp.task "stylus", ->
       sourcemap: inline: isDebug if isDebug
     .pipe gulp.dest "#{dest}/css"
     .pipe connect.reload()
+  
+  gulp
+    .src "#{src}/stylus/style.styl"
+    .pipe plumber
+      errorHandler: (err) -> console.log err.message
+    .pipe stylus
+      use: [
+        nib()
+        stylusUse
+          globalParam: getGlobalParam()
+      ]
+      compress: not isDebug
+      sourcemap: inline: isDebug if isDebug
+    .pipe gulp.dest "#{dest}/css"
+    .pipe connect.reload()
+
 
 gulp.task "coffeeify", ->
   gulp
@@ -103,14 +122,12 @@ gulp.task "copy", ->
 
 gulp.task "sprite", ->
   dirname = args.dir
-  pcPrefix = if isPc then "-pc" else ""
   pixelRatio = if isPc then 1 else 2
-  console.log colors.red pixelRatio
   return if not dirname?
   nsg
     src: ["#{src}/img/#{dirname}/*.png"]
     spritePath: "#{src}/img/#{dirname}.png"
-    stylesheetPath: "#{src}/stylus/sprite/#{dirname}#{pcPrefix}.styl"
+    stylesheetPath: "#{src}/stylus/sprite/#{dirname}#{getSuffix()}.styl"
     stylesheetOptions:
       prefix: "#{dirname}-"
       spritePath: "../img/#{dirname}.png"
