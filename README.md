@@ -21,7 +21,7 @@
 * --src source-directory
 * --dest destination-directory
 * --release release build
-* --sp switch enviroment to smartphone mode
+* --pc switch enviroment to pc mode
 
 **オプションは、すべて"--"を挟む**
 
@@ -64,16 +64,14 @@ phantom とかは入れてないので、ユニットテストだけ
 ### base.jade, base.styl
 
 ベースファイル
-* ブロックやユーティリティなどの読み込み。  
-* 最終的なコンテンツに依存するような内容は書かない。  
-* いじるべきではない。
+* ブロック定義
+* ユーティリティなどの読み込み  
+* スタイルリセットなど
 
 ### index.jade, style.styl, app.coffee
 
 エントリポイント  
 * モジュールとパーツの読み込み。
-* 容易に移植できることを心がける。ex. index.jade の内容を some-page.jade の .content 内に埋める・・・とか
-* ヘッダとかフッタとかの共通パーツのテンプレートを書くのもここ
 
 ### partial/\*\*/\*.jade, partial/\*\*/\*.styl, partial/\*\*/\*.coffee
 
@@ -91,35 +89,26 @@ phantom とかは入れてないので、ユニットテストだけ
 
 ### CSS の独立性を維持するために
 
-module は、**"全体をラッパでくくったスタイルを記述すべき"**  
-partial は、**"全体をラッパでくくらないスタイルを記述すべき"**
+module や partial は、可能な限り  
+**"全体をラッパでくくらないスタイルを記述すべき"**
 
 例:
 ```jade
 .slug
-  .section
-    .some-content
-      .some-module
+  .some-section
 ```
 
 style.styl
 ```
 .slug
-  .section
-    @import partial/some-partial
+  .some-section
+    @import partial/some-section
 ```
 
-partial/some-partial.styl
+partial/some-section.styl
 ```
 &
-  partial style
-  @import module/some-module
-```
-
-module/some-module.styl
-```
-.some-module
-  module styles
+  // section style
 ```
 
 このようにすることで、コンテンツの移植が用意になる
