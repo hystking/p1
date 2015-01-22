@@ -1,6 +1,6 @@
 HIRAGINO_GOTHIC = "\"Hiragino Kaku Gothic ProN\", \"ヒラギノ角ゴ ProN W3\""
-YU_GOTHIC = "YuGothic, \"游ゴシック\""
 HIRAGINO_MINCHO = "\"Hiragino Mincho ProN\", \"ヒラギノ明朝 ProN W3\""
+YU_GOTHIC = "YuGothic, \"游ゴシック\""
 YU_MINCHO = "YuMincho, \"游明朝\""
 MEIRYO = "Meiryo, \"メイリオ\""
 
