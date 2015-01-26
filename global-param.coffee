@@ -4,11 +4,7 @@ YU_GOTHIC = "YuGothic, \"游ゴシック\""
 YU_MINCHO = "YuMincho, \"游明朝\""
 MEIRYO = "Meiryo, \"メイリオ\""
 
-<<<<<<< HEAD
-DOMAIN "example.org"
-=======
 DOMAIN = "example.org"
->>>>>>> a55094b39b94178f2ab1deeeef3e5d4eb8d5432b
 PATH = "/"
 URL = "http://#{DOMAIN}#{PATH}"
 
