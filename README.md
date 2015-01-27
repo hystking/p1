@@ -2,7 +2,7 @@
 * Node.js, npm
 * GraphicsMagick (スプライトの生成に使う)
 
-## Instaration
+## Installation
 
 1. GraphicsMagick をインストール
   ```sh
@@ -15,19 +15,6 @@
   ```
 
 ## コマンド
-
-### options
-
-* --src source-directory
-* --dest destination-directory
-* --release release build
-* --pc switch enviroment to pc mode
-
-**オプションは、すべて"--"を挟む**
-
-```
-npm run build -- --release
-```
 
 ### npm run serve
 
@@ -59,22 +46,34 @@ src/stylus/sprite/directory_name.styl
 test/ 以下のテストを走らせる。  
 phantom とかは入れてないので、ユニットテストだけ
 
+#### コマンドオプション
+
+全部共通です。
+
+* --src source directory
+* --dest destination directory
+* --release release build
+* --pc switch enviroment to pc mode
+
+**オプションは、すべて"--"を挟む**
+
+```
+npm run build -- --release
+```
+
 ## ファイル構成について
 
 ### base.jade, base.styl
 
-ベースファイル
 * ブロックやユーティリティなどの読み込み。  
 * ミックスインなどのユーティリティもここ
 
 ### index.jade, style.styl, app.coffee
 
-エントリポイント  
+* エントリポイント  
 * モジュールとパーツの読み込み。
 
 ### partial/\*\*/\*.jade, partial/\*\*/\*.styl, partial/\*\*/\*.coffee
-
-パーツ
 
 * サイトのパーツを切り分けて書く
 * セクションとか
@@ -82,7 +81,6 @@ phantom とかは入れてないので、ユニットテストだけ
 
 ### module/\*\*/\*.jade, module/\*\*/\*.styl, module/\*\*/\*.coffee
 
-独立したモジュール
 * 機能的に独立し、使いまわせるモジュールを書く
 * ソーシャルボタンとか
 
@@ -90,11 +88,13 @@ phantom とかは入れてないので、ユニットテストだけ
 
 module や partial は、**"全体をラッパでくくらないスタイルを記述すべき"**
 
-例:
+#### 例
+
+index.jade
 ```jade
 .slug
   .some-section
-    //content
+    // some content
 ```
 
 style.styl
