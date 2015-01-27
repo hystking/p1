@@ -1,14 +1,13 @@
 browserify = require "browserify"
 transform = require "vinyl-transform"
 colors = require "colors"
+coffeeify = require "coffeeify"
 
-coffeeify = (param) ->
+module.exports = (param) ->
   transform (filename) ->
     browserify filename, param
-      .transform {}, "coffeeify"
+      .transform coffeeify
       .bundle()
       .on "error", (err) ->
         console.log colors.red err
         @emit "end"
-
-module.exports = coffeeify

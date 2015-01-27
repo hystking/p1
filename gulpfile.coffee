@@ -1,6 +1,5 @@
 # modules
 args = (require "yargs").argv
-colors = require "colors"
 del = require "del"
 runSequence = require "run-sequence"
 mainBowerFiles = require "main-bower-files"
