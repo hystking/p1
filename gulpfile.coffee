@@ -78,22 +78,6 @@ gulp.task "stylus", ->
     .pipe gulp.dest "#{dest}/css"
     .pipe connect.reload()
   
-  gulp
-    .src "#{src}/stylus/style.styl"
-    .pipe plumber
-      errorHandler: (err) -> console.log err.message
-    .pipe stylus
-      use: [
-        nib()
-        stylusUse
-          globalParam: getGlobalParam()
-      ]
-      compress: not isDebug
-      sourcemap: inline: isDebug if isDebug
-    .pipe gulp.dest "#{dest}/css"
-    .pipe connect.reload()
-
-
 gulp.task "coffeeify", ->
   gulp
     .src "#{src}/coffee/app.coffee"
