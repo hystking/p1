@@ -165,7 +165,12 @@ gulp.task "watch", ["guruguru"], ->
     "#{src}/coffee/**/*.js"
   ], ["coffeeify"]
 
-  gulp.watch "global-param*.coffee", ["jade", "stylus", "coffeeify"]
+  gulp.watch "*global-param.coffee", ->
+    runSequence "delete-require-cache", [
+      "jade"
+      "stylus"
+      "coffeeify"
+    ]
 
 gulp.task "bower-scaffold", ->
   gulp.src mainBowerFiles()
