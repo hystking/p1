@@ -1,19 +1,11 @@
 # modules
+gulp = require "gulp"
 args = (require "yargs").argv
 del = require "del"
 runSequence = require "run-sequence"
 mainBowerFiles = require "main-bower-files"
 
-gulp = require "gulp"
-jade = require "gulp-jade"
-stylus = require "gulp-stylus"
-rename = require "gulp-rename"
-plumber = require "gulp-plumber"
-connect = require "gulp-connect"
-uglify = require "gulp-uglify"
-sourcemaps = require "gulp-sourcemaps"
-mocha = require "gulp-mocha"
-gulpIf = require "gulp-if"
+$ = (require "gulp-load-plugins")()
 coffeeify = require "./lib/coffeeify"
 guruguru = require "./lib/guruguru"
 
@@ -54,20 +46,20 @@ dest = "#{dest}#{getSuffix()}"
 gulp.task "jade", ->
   gulp
     .src "#{src}/jade/index.jade"
-    .pipe plumber
+    .pipe $.plumber
       errorHandler: (err) -> console.log err.message
-    .pipe jade
+    .pipe $.jade
       pretty: true
       data: getGlobalParam()
     .pipe gulp.dest dest
-    .pipe connect.reload()
+    .pipe $.connect.reload()
 
 gulp.task "stylus", ->
   gulp
     .src "#{src}/stylus/style.styl"
-    .pipe plumber
+    .pipe $.plumber
       errorHandler: (err) -> console.log err.message
-    .pipe stylus
+    .pipe $.stylus
       use: [
         nib()
         stylusUse
@@ -76,23 +68,23 @@ gulp.task "stylus", ->
       compress: not isDebug
       sourcemap: inline: isDebug if isDebug
     .pipe gulp.dest "#{dest}/css"
-    .pipe connect.reload()
+    .pipe $.connect.reload()
   
 gulp.task "coffeeify", ->
   gulp
     .src "#{src}/coffee/app.coffee"
-    .pipe gulpIf isDebug, sourcemaps.init()
+    .pipe $.if isDebug, $.sourcemaps.init()
     .pipe coffeeify
       extensions: [".coffee", ".json"]
       debug: isDebug
-    .pipe gulpIf not isDebug, uglify
+    .pipe $.if not isDebug, $.uglify
       preserveComments: "some"
-    .pipe gulpIf isDebug, sourcemaps.write()
-    .pipe sourcemaps.write()
-    .pipe rename
+    .pipe $.if isDebug, $.sourcemaps.write()
+    .pipe $.sourcemaps.write()
+    .pipe $.rename
       extname: ".js"
     .pipe gulp.dest "#{dest}/js"
-    .pipe connect.reload()
+    .pipe $.connect.reload()
 
 gulp.task "copy", ->
   gulp
@@ -104,7 +96,7 @@ gulp.task "copy", ->
     ],
       base: src
     .pipe gulp.dest dest
-    .pipe connect.reload()
+    .pipe $.connect.reload()
 
 gulp.task "sprite", ->
   dirname = args.dir
@@ -120,7 +112,7 @@ gulp.task "sprite", ->
       pixelRatio: pixelRatio
 
 gulp.task "serve", ->
-  connect.server
+  $.connect.server
     root: [dest]
     host: "0.0.0.0"
     port: 9000
@@ -129,7 +121,7 @@ gulp.task "serve", ->
 gulp.task "test", ->
   gulp
     .src "test/**/*.coffee", read: false
-    .pipe mocha reporter: "nyan"
+    .pipe $.mocha reporter: "nyan"
 
 gulp.task "guruguru", ->
   rotatingSpeed = args.speed
@@ -161,7 +153,7 @@ gulp.task "watch", ["guruguru"], ->
 
 gulp.task "bower-scaffold", ->
   gulp.src mainBowerFiles()
-    .pipe gulpIf not isDebug, uglify
+    .pipe $.if not isDebug, $.uglify
       preserveComments: "some"
     .pipe gulp.dest "#{dest}/js/lib"
 
