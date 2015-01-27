@@ -97,7 +97,7 @@ gulp.task "coffeeify", ->
     .src "#{src}/coffee/app.coffee"
     .pipe gulpIf isDebug, sourcemaps.init()
     .pipe coffeeify
-      extensions: [".coffee"]
+      extensions: [".coffee", ".json"]
       debug: isDebug
     .pipe gulpIf not isDebug, uglify
       preserveComments: "some"
