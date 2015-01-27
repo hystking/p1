@@ -175,6 +175,10 @@ gulp.task "bower-scaffold", ->
     .pipe gulp.dest "#{dest}/js/lib"
 
 gulp.task "clean", (callback) -> del dest, callback
+  
+gulp.task "delete-require-cache", ->
+  delete require.cache[require.resolve "./global-param"]
+  delete require.cache[require.resolve "./pc-global-param"]
 
 gulp.task "build", ->
   runSequence "clean", [
