@@ -23,14 +23,17 @@ stylusUse = require "./lib/stylus-use"
 
 ##################################################
 
+GLOBAL_PARAM_PATH = "./global-param"
+PC_GLOBAL_PARAM_PATH = "./pc-global-param"
+
 isPc = args.pc?
 isDebug = not args.release?
 
 getGlobalParam = ->
   if isPc
-    require "./pc-global-param"
+    require PC_GLOBAL_PARAM_PATH
   else
-    require "./global-param"
+    require GLOBAL_PARAM_PATH
 
 getSuffix = ->
   if isPc
@@ -166,7 +169,7 @@ gulp.task "watch", ["guruguru"], ->
   ], ["coffeeify"]
 
   gulp.watch "*global-param.coffee", ->
-    runSequence "delete-require-cache", [
+    runSequence "delete-global-param-cache", [
       "jade"
       "stylus"
       "coffeeify"
@@ -180,9 +183,9 @@ gulp.task "bower-scaffold", ->
 
 gulp.task "clean", (callback) -> del dest, callback
   
-gulp.task "delete-require-cache", ->
-  delete require.cache[require.resolve "./global-param"]
-  delete require.cache[require.resolve "./pc-global-param"]
+gulp.task "delete-global-param-cache", ->
+  delete require.cache[require.resolve GLOBAL_PARAM_PATH]
+  delete require.cache[require.resolve PC_GLOBAL_PARAM_PATH]
 
 gulp.task "build", ->
   runSequence "clean", [
